@@ -1,8 +1,20 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { onMounted } from 'vue';
+import HelloWorld from './components/HelloWorld.vue';
+import { login } from './api/login';
+
 // todo 配置 eslint的excludedFiles
-const testError = 1
-console.log(testError)
+const testError = 1;
+console.log(testError);
+
+onMounted(async () => {
+  login({
+    username: '',
+    password: '',
+  }).then((res) => {
+    console.log('login', res);
+  });
+});
 
 </script>
 
