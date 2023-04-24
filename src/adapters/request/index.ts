@@ -25,8 +25,8 @@ instance.setDefaultConfig({
   },
 });
 
-export class BussinessException extends BaseException<CommonResponse> {
-  name = 'BussinessException';
+export class BusinessException extends BaseException<CommonResponse> {
+  name = 'BusinessException';
 }
 
 // 设置判断是否业务报错
@@ -35,7 +35,7 @@ instance.use(async (context, next) => {
   await next();
   console.log('请求后', context.response);
   if (context.response.data.code !== 200) {
-    throw new BussinessException('业务错误', context.response.data);
+    throw new BusinessException('业务错误', context.response.data);
   }
 });
 
@@ -45,6 +45,6 @@ instance.use(async (context, next) => {
   console.log('请求后', context.response);
 });
 
-export const request = <Reponse>(options: XHRConfig) => {
-  return instance.request<Reponse>(options);
+export const request = <Response>(options: XHRConfig) => {
+  return instance.request<Response>(options);
 };
