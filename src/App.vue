@@ -2,18 +2,30 @@
 import { onMounted } from 'vue';
 import HelloWorld from './components/HelloWorld.vue';
 import { login } from './api/login';
+import { BusinessException } from './adapters/request';
+import { ErrorCode } from '@/api/base';
 
 // todo 配置 eslint的excludedFiles
 const testError = 1;
 console.log(testError);
 
 onMounted(async () => {
-  login({
-    username: '',
-    password: '',
-  }).then((res) => {
-    console.log('login', res);
-  });
+  try {
+    const res = await login({
+      username: '',
+      password: '',
+    });
+    console.log(res);
+  }
+  catch (error) {
+    // 处理业务异常
+    if (error instanceof BusinessException) {
+      // 如果是登陆失效，跳转登陆失效页
+      if (error.raw.code === ErrorCode.LOGIN_EXPIRE) {
+        // 某些操作
+      }
+    }
+  }
 });
 
 </script>
