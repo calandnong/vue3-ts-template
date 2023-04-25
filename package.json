@@ -16,12 +16,12 @@
     "mock": "mock -p 7777 -d ./mock"
   },
   "dependencies": {
-    "pinia": "^2.0.34",
-    "vue": "^3.2.47",
-    "vue-router": "4",
     "@applet-request/adapters": "^0.1.8",
     "@applet-request/core": "^0.1.8",
-    "@applet-request/shared": "^0.1.8"
+    "@applet-request/shared": "^0.1.8",
+    "pinia": "^2.0.34",
+    "vue": "^3.2.47",
+    "vue-router": "4"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.5.1",
@@ -36,6 +36,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^13.2.1",
     "mock-server-local": "^2.6.7",
+    "sass": "^1.62.0",
     "typescript": "^4.9.3",
     "vite": "^4.2.0",
     "vitest": "^0.30.1",
