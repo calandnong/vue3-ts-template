@@ -3,6 +3,8 @@ import type { RouteLocationNormalized } from 'vue-router';
 import { router } from './route';
 import type { PageMeta } from './meta';
 
+console.log('测试');
+
 const routeMeta = ref<PageMeta>({});
 const currentRoute = ref<RouteLocationNormalized | null>(null);
 
