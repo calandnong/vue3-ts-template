@@ -10,6 +10,7 @@ import {
   useCurrentPageMeta,
   useCurrentRoute,
   tabBarList,
+  pagePaths,
   tabBarConfig,
 } from '@/router';
 
@@ -57,6 +58,8 @@ const commonPageStyle = computed(() => {
   <div class="layout">
     <common-header
       class="common-header"
+      :list="pagePaths"
+      :current-page-path="currentRoute?.path"
       :navigation-bar-title-text="currentPageMeta.navigationBarTitleText"
       :navigation-bar-background-color="currentPageMeta.navigationBarBackgroundColor"
       :navigation-bar-text-style="currentPageMeta.navigationBarTextStyle"

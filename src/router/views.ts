@@ -1,6 +1,8 @@
+import type { PageRoute } from './meta';
 import { Is, createPageRoutes } from './meta';
 import { RoutePath } from './path';
 import type { TabBarItem, TabBar } from '@/layout/components/tab-bar.vue';
+import type { pagePathList } from '@/layout/components/common-header.vue';
 
 // layout页面
 export const pages = createPageRoutes([
@@ -72,6 +74,27 @@ export function getTabBarList(): TabBarItem[] {
 }
 
 export const tabBarList = getTabBarList();
+
+/**
+ * 所有路由的路径列表
+ */
+export function getPagePathList(): pagePathList {
+  const list: pagePathList = [];
+
+  function ergodicPage(pages: PageRoute[]) {
+    pages.forEach((item) => {
+      list.push(item.path);
+      if (item.children) {
+        ergodicPage(item.children);
+      }
+    });
+  }
+  ergodicPage(pages);
+
+  return list;
+}
+
+export const pagePaths = getPagePathList();
 
 export const tabBarConfig: TabBar = {
   color: 'rgb(0, 0, 0)',

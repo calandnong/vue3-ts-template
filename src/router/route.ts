@@ -10,7 +10,7 @@ const routes: RouteRecordRaw[] = [
     path: `/${RoutePath.ROOT}`,
     component: () => import('@/layout/index.vue'),
     redirect: RoutePath.HOME,
-    children: pages as unknown as RouteRecordRaw[],
+    children: pages as RouteRecordRaw[],
   },
   // 404
   {
