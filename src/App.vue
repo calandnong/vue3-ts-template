@@ -2,10 +2,6 @@
 import { RouterView } from 'vue-router';
 import { onMounted } from 'vue';
 
-// todo 配置 eslint的excludedFiles
-const testError = 1;
-console.log(testError);
-
 onMounted(async () => {
   // try {
   //   const res = await login({

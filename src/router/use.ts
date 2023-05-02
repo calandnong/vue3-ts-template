@@ -1,31 +1,32 @@
-import { ref } from 'vue';
 import type { RouteLocationNormalized } from 'vue-router';
 import { router } from './route';
-import type { PageMeta } from './meta';
 
-const routeMeta = ref<PageMeta>({});
-const currentRoute = ref<RouteLocationNormalized | null>(null);
+export type RouterSwitchEvent = (route: RouteLocationNormalized) => void;
+export type RouterSwitchEventKeys = 'onLeave' | 'onEnter';
 
-router.beforeEach((to, from, next) => {
-  next();
-  // 获取当前路由信息
-  currentRoute.value = to;
-  // 获取当前页的meta
-  routeMeta.value = to.meta;
-});
+class RouterSwitchEventBus {
+  eventMap: Map<RouterSwitchEventKeys, RouterSwitchEvent> = new Map();
 
-/**
- * 使用当前页的元数据
- * @returns
- */
-export function useCurrentPageMeta() {
-  return routeMeta;
+  on(key: RouterSwitchEventKeys, callback: RouterSwitchEvent) {
+    this.eventMap.set(key, callback);
+  }
+
+  emit(key: RouterSwitchEventKeys, to: RouteLocationNormalized) {
+    this.eventMap.get(key)?.(to);
+  }
 }
 
-/**
- * 使用当前页的路由信息
- * @returns
- */
-export function useCurrentRoute() {
-  return currentRoute;
+const routerSwitchEventInstance = new RouterSwitchEventBus();
+
+router.beforeEach((to, from, next) => {
+  routerSwitchEventInstance.emit('onLeave', from);
+  next();
+  routerSwitchEventInstance.emit('onEnter', to);
+});
+
+export function onRouterEnter(callback: RouterSwitchEvent) {
+  routerSwitchEventInstance.on('onEnter', callback);
+}
+export function onRouterLeave(callback: RouterSwitchEvent) {
+  routerSwitchEventInstance.on('onLeave', callback);
 }

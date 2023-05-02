@@ -8,10 +8,10 @@ export default defineConfig({
   plugins: [vue()],
 
   // vitest
-  test: {
+  // test: {
 
-    // ...
-  },
+  //   // ...
+  // },
 
   resolve: {
     alias: {

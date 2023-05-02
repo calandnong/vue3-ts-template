@@ -56,7 +56,7 @@ export type PageMeta = PageCommonMeta & (TabBarPageMeta | NotTabBarPageMeta);
  * 页面路由
  */
 export type PageRoute = Omit<RouteRecordRaw, 'meta'> & {
-  meta?: PageMeta | TabBarPageMeta;
+  meta?: PageMeta;
 };
 
 /**

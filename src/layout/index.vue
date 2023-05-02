@@ -1,29 +1,19 @@
 <script setup lang="ts">
-import { RouterView, useRouter } from 'vue-router';
-import { computed, ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { computed } from 'vue';
 import CommonPage from './components/common-page.vue';
-import CommonHeader from './components/common-header.vue';
 import type { TabBarItem } from './components/tab-bar.vue';
 import TabBar from './components/tab-bar.vue';
+import type { PageMeta } from '@/router';
 import {
   Is,
-  useCurrentPageMeta,
-  useCurrentRoute,
   tabBarList,
   tabBarConfig,
 } from '@/router';
 
 const router = useRouter();
 
-/**
- * 页面元数据
- */
-const currentPageMeta = useCurrentPageMeta();
-
-/**
- * 当前路由
- */
-const currentRoute = useCurrentRoute();
+const route = useRoute();
 
 /**
  * Tab点击事件
@@ -34,13 +24,12 @@ function onPageChange(item: TabBarItem) {
   });
 }
 
-const isHeaderShow = ref(true);
+const currentPageMeta = computed(() => {
+  return route.meta as PageMeta;
+});
 
 const commonPageStyle = computed(() => {
   let height = '100vh';
-  if (isHeaderShow.value) {
-    height += ' - 88rem';
-  }
 
   if (currentPageMeta.value.isTabBar === Is.TRUE) {
     height += ' - 112rem';
@@ -55,26 +44,17 @@ const commonPageStyle = computed(() => {
 
 <template>
   <div class="layout">
-    <common-header
-      class="common-header"
-      :navigation-bar-title-text="currentPageMeta.navigationBarTitleText"
-      :navigation-bar-background-color="currentPageMeta.navigationBarBackgroundColor"
-      :navigation-bar-text-style="currentPageMeta.navigationBarTextStyle"
-    />
     <common-page
       class="common-page"
       :style="commonPageStyle"
-    >
-      <template #body>
-        <router-view />
-      </template>
-    </common-page>
+      :current-page-meta="currentPageMeta"
+    />
     <!-- 底部菜单 -->
     <tab-bar
       v-show="currentPageMeta.isTabBar === Is.TRUE"
       class="tab-bar"
       :tab-bar-config="tabBarConfig"
-      :current-page-path="currentRoute?.path"
+      :current-page-path="route?.path"
       :list="tabBarList"
       @on-tab-click="onPageChange"
     />
@@ -89,15 +69,12 @@ const commonPageStyle = computed(() => {
   display: flex;
   flex-direction: column;
 
-  .common-page {
-    height: calc(100vh - 88rem - 112rem);
-  }
-
   .tab-bar {
     position: fixed;
     bottom: 0;
     z-index: 99;
   }
+
 }
 
 </style>

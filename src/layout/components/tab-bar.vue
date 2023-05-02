@@ -152,7 +152,6 @@ function onTabClick(item: TabBarItem) {
       &-icon {
         width: 48rem;
         height: 48rem;
-        background-color: aquamarine;
       }
 
       &-text {

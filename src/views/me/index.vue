@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+console.log('重新渲染me');
 </script>
 
 <template>

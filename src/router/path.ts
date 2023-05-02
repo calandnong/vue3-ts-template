@@ -11,9 +11,13 @@ export enum RoutePath {
    */
   HOME = 'home',
   /**
-   * 广场
+   * 发布
    */
-  SQUARE = 'square',
+  PUBLISH = 'publish',
+  /**
+   * 消息
+   */
+  MESSAGE = 'message',
   /**
    * 我的
    */

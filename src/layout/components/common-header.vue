@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 export interface HeaderConfig {
   /**
    * 页面导航标题
@@ -14,17 +16,30 @@ export interface HeaderConfig {
   navigationBarTextStyle?: string;
 }
 
-withDefaults(defineProps<HeaderConfig>(), {
+const props = withDefaults(defineProps<HeaderConfig>(), {
   navigationBarTitleText: '',
   navigationBarTextStyle: '',
   navigationBarBackgroundColor: '',
 });
 
+const style = computed(() => {
+  return {
+    color: props.navigationBarTextStyle,
+    backgroundColor: props.navigationBarBackgroundColor,
+  };
+});
+
 </script>
 
 <template>
-  <div class="common-header">
-    <div class="common-header-body">
+  <div
+    class="common-header"
+    :style="style"
+  >
+    <div
+      class="common-header-body"
+      :style="style"
+    >
       <div class="common-header-title">
         {{ navigationBarTitleText }}
       </div>
