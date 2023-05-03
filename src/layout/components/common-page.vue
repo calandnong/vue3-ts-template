@@ -1,27 +1,33 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
-import { provide, ref } from 'vue';
+import { computed, ref } from 'vue';
 import CommonHeader from './common-header.vue';
 import type { PageMeta } from '@/router';
-import { navigateStyle, onRouterLeave, onRouterEnter } from '@/router';
-import { usePageEventBus, PAGE_EVENT_BUS_KEY } from '@/layout/use';
+import { NavigateStyle, navigateStyle, onRouterLeave, onRouterEnter } from '@/router';
+import { pageEmit } from '@/adapters/page-events';
 
 export interface CommonPageProps {
   currentPageMeta: PageMeta;
 }
 
-withDefaults(defineProps<CommonPageProps>(), {
+const props = withDefaults(defineProps<CommonPageProps>(), {
 });
 
 const commonPage = ref<HTMLDivElement | null>(null);
 
-const { pageEventBus, emit } = usePageEventBus();
 interface ScrollMessage {
   left: number;
   top: number;
 }
 
 const scrollMap = new Map<string, ScrollMessage>();
+
+const currentScroll = ref<ScrollMessage>({
+  left: 0,
+  top: 0,
+});
+
+let scrollTimer: NodeJS.Timeout | undefined;
 
 onRouterLeave((route) => {
   scrollMap.set(route.path, {
@@ -31,22 +37,36 @@ onRouterLeave((route) => {
 });
 
 onRouterEnter((route) => {
+  clearTimeout(scrollTimer);
   if (commonPage.value) {
     const scroll = scrollMap.get(route.path);
-    setTimeout(() => {
+    currentScroll.value = {
+      left: scroll?.left || 0,
+      top: scroll?.top || 0,
+    };
+    // 渲染完成后再进行滚动到原本的位置
+    scrollTimer = setTimeout(() => {
       commonPage.value?.scrollTo({
-        left: scroll?.left || 0,
-        top: scroll?.top || 0,
+        ...currentScroll.value,
       });
     }, 0);
   }
 });
-
-provide(PAGE_EVENT_BUS_KEY, pageEventBus);
-
 function onPageScroll(payload: UIEvent) {
-  emit('onPageScroll', payload);
+  const target = payload.target as HTMLDivElement;
+  // 非用户滚动事件
+  if (target.scrollTop === currentScroll.value.top) {
+    return;
+  }
+  pageEmit('onPageScroll', payload);
 }
+
+const isHeaderShow = computed(() => {
+  if (props.currentPageMeta.navigateStyle === NavigateStyle.CUSTOM) {
+    return false;
+  }
+  return true;
+});
 
 </script>
 
@@ -58,6 +78,7 @@ function onPageScroll(payload: UIEvent) {
   >
     <!-- 头部都是不同实例 -->
     <common-header
+      v-show="isHeaderShow"
       class="common-header"
       :navigation-bar-title-text="currentPageMeta.navigationBarTitleText || navigateStyle.navigationBarTitleText"
       :navigation-bar-background-color="currentPageMeta.navigationBarBackgroundColor || navigateStyle.navigationBarBackgroundColor"

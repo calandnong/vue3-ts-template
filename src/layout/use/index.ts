@@ -1,4 +1,4 @@
-import type { InjectionKey } from 'vue';
+import { useCurrentRoute } from '@/router';
 
 export interface PageEventBusMap {
   onPageScroll: (payload: UIEvent) => void;
@@ -20,19 +20,33 @@ class PageEventBus {
   }
 }
 
-export function usePageEventBus() {
-  const pageEventBus = new PageEventBus();
-  function emit(...args: Parameters<typeof pageEventBus.emit>) {
-    pageEventBus.emit(...args);
-  }
-  function on(...args: Parameters<typeof pageEventBus.on>) {
-    pageEventBus.on(...args);
+export const pageEventBusMap = new Map<string, PageEventBus>();
+
+export const defaultKey = 'default--Key' as const;
+
+function getCurrentPageEventBus(key: string = defaultKey) {
+  let pageEventBus = pageEventBusMap.get(key);
+  if (!pageEventBus) {
+    pageEventBus = new PageEventBus();
+    pageEventBusMap.set(key, pageEventBus);
   }
   return {
     pageEventBus,
+  };
+}
+
+export function usePageEventBus() {
+  const { currentRoute } = useCurrentRoute();
+  function emit(...args: Parameters<(typeof PageEventBus)['prototype']['emit']>) {
+    const { pageEventBus } = getCurrentPageEventBus(currentRoute.value?.path);
+    pageEventBus.emit(...args);
+  }
+  function on(...args: Parameters<(typeof PageEventBus)['prototype']['on']>) {
+    const { pageEventBus } = getCurrentPageEventBus(currentRoute.value?.path);
+    pageEventBus.on(...args);
+  }
+  return {
     emit,
     on,
   };
 }
-
-export const PAGE_EVENT_BUS_KEY = Symbol('page') as InjectionKey<PageEventBus>;

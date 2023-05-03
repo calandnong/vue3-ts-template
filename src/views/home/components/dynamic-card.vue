@@ -70,7 +70,7 @@ const sliceImages = computed(() => {
 });
 
 const exceedContent = computed(() => {
-  const content = images.value.length - 3;
+  const content = images.value.length - 2;
   return `+${content}`;
 });
 

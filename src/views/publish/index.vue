@@ -1,5 +1,11 @@
 <script setup lang="ts">
+import { onPageScroll } from '@/adapters/page-events';
+
 console.log('重新渲染publish');
+
+onPageScroll(() => {
+  console.log('滚动了publish');
+});
 </script>
 
 <template>

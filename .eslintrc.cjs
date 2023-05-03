@@ -1,4 +1,10 @@
 module.exports = {
+  env: {
+    node: true,
+  },
+  globals: {
+    NodeJS: 'readonly',
+  },
   extends: [
     '@fastcoder/eslint-config-vue',
   ],

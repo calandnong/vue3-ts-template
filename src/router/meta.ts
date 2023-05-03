@@ -41,10 +41,19 @@ export interface TabBarPageMeta {
   text: string;
 }
 
+export enum NavigateStyle {
+  AUTO = 'auto',
+  CUSTOM = 'custom',
+}
+
 /**
  * 页面公共元数据
  */
 export interface PageCommonMeta extends HeaderConfig {
+  /**
+   * 是否自定义navigate
+   */
+  navigateStyle?: NavigateStyle;
 }
 
 /**

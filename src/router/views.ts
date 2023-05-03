@@ -1,4 +1,4 @@
-import { Is, createPageRoutes } from './meta';
+import { Is, NavigateStyle, createPageRoutes } from './meta';
 import { RoutePath } from './path';
 import type { HeaderConfig } from '@/layout/components/common-header.vue';
 import type { TabBarItem, TabBar } from '@/layout/components/tab-bar.vue';
@@ -31,6 +31,7 @@ export const pages = createPageRoutes([
     path: `/${RoutePath.PUBLISH}`,
     name: RoutePath.PUBLISH,
     meta: {
+      navigateStyle: NavigateStyle.CUSTOM,
       navigationBarTitleText: '发布',
       isTabBar: Is.TRUE,
       iconPath: PublishIcon,
