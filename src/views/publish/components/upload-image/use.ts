@@ -1,3 +1,24 @@
+import { generateUniqueId } from '@/adapters/functions';
+
+export interface Image {
+  /**
+   * 图片唯一id
+   */
+  uid: string;
+  /**
+   * 图片地址
+   */
+  url: string;
+  /**
+   * 图标上传状态
+   */
+  status: UploadStatus;
+  /**
+   * 图片上传返回的内容
+   */
+  response?: unknown;
+}
+
 export enum UploadStatus {
   /**
    * 正在上传
@@ -13,14 +34,16 @@ export enum UploadStatus {
   FAIL = 'fail',
 }
 
-export function generateUniqueId(): string {
-  const timestamp = Date.now().toString(16);
-  const randomNumber = Math.floor(Math.random() * 1000000000).toString(16);
-  const uuidString = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
-  const uuid = uuidString.replace(/[xy]/g, (c) => {
-    const r = Math.random() * 16 | 0;
-    const v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
+export function readFileContent(file: File): Promise<Image> {
+  return new Promise((resolve) => {
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      resolve({
+        uid: generateUniqueId(),
+        url: fileReader.result as string,
+        status: UploadStatus.UPLOADING,
+      });
+    };
+    fileReader.readAsDataURL(file as Blob);
   });
-  return `${timestamp}-${randomNumber}-${uuid}`;
 }

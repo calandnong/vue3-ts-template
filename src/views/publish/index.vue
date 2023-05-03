@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import DynamicTextarea from './components/dynamic-textarea.vue';
+import type { UploadMethods } from './components/upload-image/index.vue';
 import UploadImage from './components/upload-image/index.vue';
 import EuiButton from '@/components/example-ui/button/index.vue';
 import { onPageScroll } from '@/adapters/page-events';
+import { publishUploadFile } from '@/api/upload';
 
 console.log('重新渲染publish');
 
@@ -31,6 +33,20 @@ const isPublishButtonDisabled = computed(() => {
   return false;
 });
 
+const upload: UploadMethods = (file) => {
+  return publishUploadFile({
+    data: file,
+  }).then((res) => {
+    if (res.code === 1) {
+      return {
+        file: res.data,
+        response: res.data,
+      };
+    }
+    return Promise.reject(new Error('错误了'));
+  });
+};
+
 </script>
 
 <template>
@@ -49,15 +65,20 @@ const isPublishButtonDisabled = computed(() => {
         class="dynamic-textarea"
       />
       <upload-image
+        :config="{
+          upload: upload,
+        }"
         class="dynamic-upload-image"
       />
     </div>
-    <eui-button
-      class="publish-button"
-      :disabled="isPublishButtonDisabled"
-    >
-      立即发布
-    </eui-button>
+    <div class="publish-footer">
+      <eui-button
+        class="publish-button"
+        :disabled="isPublishButtonDisabled"
+      >
+        立即发布
+      </eui-button>
+    </div>
   </div>
 </template>
 
@@ -99,11 +120,13 @@ const isPublishButtonDisabled = computed(() => {
     }
   }
 
+  &-footer {
+
+  }
+
   &-button {
-    position: absolute;
-    left: 50%;
-    bottom: 148rem;
-    transform: translateX(-50%);
+    display: block;
+    margin: 200rem auto auto auto;
   }
 }
 

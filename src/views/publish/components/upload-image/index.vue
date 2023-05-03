@@ -1,25 +1,22 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { UploadStatus, generateUniqueId } from './use';
+import type { Image } from './use';
+import { readFileContent, UploadStatus } from './use';
 import EuiIcon from '@/components/example-ui/icon/index.vue';
 
-export interface Image {
-  /**
-   * 图片唯一id
-   */
-  uid: string;
-  /**
-   * 图片地址
-   */
-  url: string;
-  /**
-   * 图标上传状态
-   */
-  status: UploadStatus;
-  /**
-   * 图片上传返回的内容
-   */
+export type FormatFile = Omit<Image, 'uid' | 'status'>;
+
+export interface ImageFile {
+  file: FormatFile;
   response?: unknown;
+}
+
+export interface UploadMethods {
+  (file: File): Promise<ImageFile>;
+}
+
+export interface UploadConfig {
+  upload?: UploadMethods;
 }
 
 export interface Props {
@@ -31,6 +28,10 @@ export interface Props {
    * 最大上传数
    */
   max?: number;
+  /**
+   * 上传配置
+   */
+  config: UploadConfig;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -68,22 +69,30 @@ function select(payload: Event) {
     console.log('文件已达最大');
     return;
   }
-  Array.from(target.files).forEach((file) => {
+  Array.from(target.files).forEach(async (file) => {
     console.log(file);
     // 获取本地地址
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      console.log(fileReader.result);
-      uploadList.value.push({
-        uid: generateUniqueId(),
-        url: fileReader.result as string,
-        status: UploadStatus.UPLOADING,
-      });
-    };
-    fileReader.readAsDataURL(file as Blob);
-  // 上传...
+    const loadImage = await readFileContent(file);
+    const pushIndex = uploadList.value.push(loadImage) - 1;
+    // 上传...
+    props.config.upload?.(file).then(({ file, response }) => {
+      uploadList.value[pushIndex].url = file.url;
+      uploadList.value[pushIndex].status = UploadStatus.SUCCESS;
+      uploadList.value[pushIndex].response = response;
+    }).catch((err) => {
+      console.error(err);
+      uploadList.value[pushIndex].status = UploadStatus.FAIL;
+    });
   });
   target.value = '';
+}
+
+function isSuccess(item: Image) {
+  return item.status === UploadStatus.UPLOADING;
+}
+
+function isFail(item: Image) {
+  return item.status === UploadStatus.FAIL;
 }
 
 </script>
@@ -98,13 +107,25 @@ function select(payload: Event) {
         v-for="item in uploadList"
         :key="item.uid"
       >
-        <div class="upload-image-item">
+        <div
+          class="upload-image-item"
+        >
           <img
             :src="item.url"
           >
           <!-- 上传中 -->
-          <div class="upload-image-item-uploading">
+          <div
+            v-show="isSuccess(item)"
+            class="upload-image-item-uploading"
+          >
             上传中...
+          </div>
+          <!-- 上传失败 -->
+          <div
+            v-show="isFail(item)"
+            class="upload-image-item-fail"
+          >
+            上传失败
           </div>
         </div>
       </template>
@@ -164,6 +185,20 @@ function select(payload: Event) {
       height: 100%;
       background-color: rgba(0, 0, 0, 0.6);
       color: #FFFFFF;
+      font-size: 24rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &-fail {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: red;
       font-size: 24rem;
       display: flex;
       justify-content: center;
