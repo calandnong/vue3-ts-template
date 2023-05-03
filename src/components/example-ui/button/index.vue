@@ -1,7 +1,7 @@
 <script setup lang="ts">
 export interface Props {
   text?: string;
-  type?: 'normal' | 'disable';
+  type?: 'normal';
   disabled?: boolean;
 }
 
