@@ -30,13 +30,12 @@ const currentPageMeta = computed(() => {
 
 const commonPageStyle = computed(() => {
   let height = '100vh';
-
   if (currentPageMeta.value.isTabBar === Is.TRUE) {
     height += ' - 112rem';
   }
-
   return {
-    height: `calc(${height})`,
+    'height': `calc(${height})`,
+    '--page-height': height,
   };
 });
 

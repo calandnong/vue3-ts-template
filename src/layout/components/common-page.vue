@@ -85,24 +85,32 @@ const isHeaderShow = computed(() => {
       :navigation-bar-text-style="currentPageMeta.navigationBarTextStyle || navigateStyle.navigationBarTextStyle"
     />
     <router-view v-if="!currentPageMeta.isTabBar" />
-    <router-view
-      v-if="currentPageMeta.isTabBar"
-      v-slot="{ Component }"
-    >
-      <keep-alive>
-        <component
-          :is="Component"
-        />
-      </keep-alive>
-    </router-view>
+    <div class="common-page-body">
+      <router-view
+        v-if="currentPageMeta.isTabBar"
+        v-slot="{ Component }"
+      >
+        <keep-alive>
+          <component
+            :is="Component"
+          />
+        </keep-alive>
+      </router-view>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .common-page {
+  --page-height: '100vh';
   width: 100%;
+  height: calc(var(--page-height));
   overflow-y: auto;
   overflow-x: hidden;
   background-color: #EBEDF1;
+
+  &-body {
+    height: calc(var(--page-height) - 88rem);
+  }
 }
 </style>

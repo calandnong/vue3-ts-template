@@ -1,7 +1,5 @@
 <script setup lang="ts">
-function getImageUrl(name: string) {
-  return new URL(`./assets/icons/${name}.png`, import.meta.url).href;
-}
+import { getImageUrl } from '@/adapters/images';
 
 export interface Props {
   name?: string;
