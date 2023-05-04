@@ -23,9 +23,14 @@ export interface LoginData {
  * @returns
  */
 export const login = (data: LoginData) => {
+  console.log(data);
+
+  const form = new FormData();
+  form.append('name', '1111');
+
   return request<UserData>({
     url: '/api/login',
-    data,
+    data: form,
     config: {
       method: 'post',
     },

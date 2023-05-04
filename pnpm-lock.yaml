@@ -1,9 +1,9 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@applet-request/adapters': ^0.1.8
-  '@applet-request/core': ^0.1.8
-  '@applet-request/shared': ^0.1.8
+  '@applet-request/adapters': ^0.1.11
+  '@applet-request/core': ^0.1.10
+  '@applet-request/shared': ^0.1.10
   '@commitlint/cli': ^17.5.1
   '@commitlint/config-conventional': ^17.4.4
   '@fastcoder/eslint-config-vue': ^1.0.5
@@ -27,9 +27,9 @@ specifiers:
   whistle: ^2.9.46
 
 dependencies:
-  '@applet-request/adapters': 0.1.8
-  '@applet-request/core': 0.1.8
-  '@applet-request/shared': 0.1.8
+  '@applet-request/adapters': 0.1.11
+  '@applet-request/core': 0.1.10
+  '@applet-request/shared': 0.1.10
   pinia: 2.0.35_typescript@4.9.5+vue@3.2.47
   vue: 3.2.47
   vue-router: 4.1.6_vue@3.2.47
@@ -56,21 +56,24 @@ devDependencies:
 
 packages:
 
-  /@applet-request/adapters/0.1.8:
-    resolution: {integrity: sha512-Qjn1TFFuXhxDZPoMZqOJstJ/THKNfI3wyzDgXQW/0Yj8oAdJTMkg9yGop3F09NLT5IO8PnXBsMekKmuAbfmvXw==}
+  /@applet-request/adapters/0.1.11:
+    resolution: {integrity: sha512-RU3Uga24OXIp6VuL1nwtZO3S2YbHr3cDuTT/5NHYeAMjXGbfpRqe49dTBX8NpVju9qx1wc8RQQPO4E0OdN0O/Q==}
     dependencies:
-      '@applet-request/core': 0.1.8
-      '@applet-request/shared': 0.1.8
+      '@applet-request/core': 0.1.10
+      '@applet-request/shared': 0.1.10
+      axios: 1.4.0
+    transitivePeerDependencies:
+      - debug
     dev: false
 
-  /@applet-request/core/0.1.8:
-    resolution: {integrity: sha512-T/feYRNsiH9VSdqG2eRbpyRyJlgH0PWOjRyzVq9MRUy5KBBU6CqZR0ne8eo+bOjfFneIU+h8lUiD3rWrC9SauA==}
+  /@applet-request/core/0.1.10:
+    resolution: {integrity: sha512-t8SdTHYl4K1VrrEPztAmAArI6OMsPBZld+RqanYyhhO7nD5oYgOCY9MgQ5eCM0yIldojI2KQQISYs77o+/0/Jw==}
     dependencies:
-      '@applet-request/shared': 0.1.8
+      '@applet-request/shared': 0.1.10
     dev: false
 
-  /@applet-request/shared/0.1.8:
-    resolution: {integrity: sha512-5hEW657Lm5AFh8pDnjvgEl6rVgftqFaZXP7Yawnf3ZqB4H8LC9iM5NkUvFeX3rNE4EhVcRwBmvzyhcgXlccefw==}
+  /@applet-request/shared/0.1.10:
+    resolution: {integrity: sha512-j85vQsCjg/DrjF9r1BVsHrPSqV2IkfgtZT5HXmpgyeujyC6x9lHzQVqt22WjY8WHaeZ+5w17LRA14lJc5A37uw==}
     dependencies:
       deepmerge: 4.3.1
       qs: 6.11.1
@@ -1261,6 +1264,10 @@ packages:
     resolution: {integrity: sha512-nyHFzvVaR+4mfHc90/VqOUQjlnk9+ioDxQfqDuqKnm3m9sIT7joVKW8dkxeaKpamMJ3MYD73t6M8PMKEWlQESQ==}
     dev: true
 
+  /asynckit/0.4.0:
+    resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
+    dev: false
+
   /atob/2.1.2:
     resolution: {integrity: sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==}
     engines: {node: '>= 4.5.0'}
@@ -1280,6 +1287,16 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /axios/1.4.0:
+    resolution: {integrity: sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /balanced-match/1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -1647,6 +1664,13 @@ packages:
     engines: {node: '>=0.1.90'}
     dev: true
 
+  /combined-stream/1.0.8:
+    resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
+    engines: {node: '>= 0.8'}
+    dependencies:
+      delayed-stream: 1.0.0
+    dev: false
+
   /commander/10.0.1:
     resolution: {integrity: sha512-y4Mg2tXshplEbSGzx7amzPwKKOCGuoSRP/CjEdwwk0FOGlUbq6lKuoyDZTNZkmxHdJtp54hdfY/JUrdL7Xfdug==}
     engines: {node: '>=14'}
@@ -1973,6 +1997,11 @@ packages:
       is-descriptor: 1.0.2
       isobject: 3.0.1
     dev: true
+
+  /delayed-stream/1.0.0:
+    resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
+    engines: {node: '>=0.4.0'}
+    dev: false
 
   /delegates/1.0.0:
     resolution: {integrity: sha512-bd2L678uiWATM6m5Z1VzNCErI3jiGzt6HGY8OVICs40JQq/HALfbyNJmp0UDakEY4pMMaN0Ly5om/B1VI/+xfQ==}
@@ -2811,7 +2840,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: true
 
   /follow-redirects/1.5.10:
     resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
@@ -2832,6 +2860,15 @@ packages:
     resolution: {integrity: sha512-7EwmXrOjyL+ChxMhmG5lnW9MPt1aIeZEwKhQzoBUdTV0N3zuwWDZYVJatDvZ2OyzPUvdIAZDsCetk3coyMfcnQ==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /form-data/4.0.0:
+    resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
+    engines: {node: '>= 6'}
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      mime-types: 2.1.35
+    dev: false
 
   /forwarded/0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
@@ -4106,14 +4143,12 @@ packages:
   /mime-db/1.52.0:
     resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
     engines: {node: '>= 0.6'}
-    dev: true
 
   /mime-types/2.1.35:
     resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
     engines: {node: '>= 0.6'}
     dependencies:
       mime-db: 1.52.0
-    dev: true
 
   /mime/1.6.0:
     resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
@@ -4696,6 +4731,10 @@ packages:
       forwarded: 0.2.0
       ipaddr.js: 1.9.1
     dev: true
+
+  /proxy-from-env/1.1.0:
+    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
+    dev: false
 
   /pseudomap/1.0.2:
     resolution: {integrity: sha512-b/YwNhb8lk1Zz2+bXXpS/LK9OisiZZ1SNsSLxN1x2OXVEhW2Ckr/7mWE5vrC1ZTiJlD9g19jWszTmJsB+oEpFQ==}

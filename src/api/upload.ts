@@ -1,4 +1,4 @@
-import { generateUniqueId } from '@/adapters/functions';
+import { request } from '@/adapters/request';
 
 export type Params = Record<string, unknown>;
 
@@ -29,21 +29,31 @@ function upload(options: UploadOptions): Promise<UploadResponse> {
   const file = new FormData();
   file.append(options.name, options.data);
   console.log('上传了，拿到的数据是', file);
-  return new Promise((resolve) => {
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      setTimeout(() => {
-        resolve({
-          code: 200,
-          data: {
-            id: generateUniqueId(),
-            url: fileReader.result as string,
-          },
-          message: '上传成功',
-        });
-      }, 2000);
-    };
-    fileReader.readAsDataURL(options.data);
+  // return new Promise((resolve) => {
+  //   const fileReader = new FileReader();
+  //   fileReader.onload = () => {
+  //     setTimeout(() => {
+  //       resolve({
+  //         code: 200,
+  //         data: {
+  //           id: generateUniqueId(),
+  //           url: fileReader.result as string,
+  //         },
+  //         message: '上传成功',
+  //       });
+  //     }, 2000);
+  //   };
+  //   fileReader.readAsDataURL(options.data);
+  // });
+  return request({
+    url: '/api/login',
+    data: file,
+    config: {
+      method: 'post',
+      headers: {
+        'Content-type': 'multipart/form-data',
+      },
+    },
   });
 }
 

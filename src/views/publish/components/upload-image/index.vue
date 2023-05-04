@@ -11,12 +11,17 @@ export interface ImageFile {
   response?: unknown;
 }
 
-export interface UploadMethods {
+export interface UploadMethod {
   (file: File): Promise<ImageFile>;
 }
 
+export interface DeleteMethod {
+  (item: Image): Promise<void>;
+}
+
 export interface UploadConfig {
-  upload?: UploadMethods;
+  upload?: UploadMethod;
+  delete?: DeleteMethod;
 }
 
 export interface Props {
@@ -95,6 +100,26 @@ function isFail(item: Image) {
   return item.status === UploadStatus.FAIL;
 }
 
+function deleteImage(item: Image) {
+  const index = uploadList.value.findIndex((uploadListItem) => {
+    return uploadListItem.uid === item.uid;
+  });
+  if (index !== -1) {
+    uploadList.value.splice(index, 1);
+  }
+}
+
+function toDelete(item: Image) {
+  if (props.config.delete) {
+    props.config.delete?.(item).then(() => {
+      deleteImage(item);
+      return Promise.reject(new Error('未找到需要删除的'));
+    });
+    return;
+  }
+  deleteImage(item);
+}
+
 </script>
 
 <template>
@@ -111,6 +136,7 @@ function isFail(item: Image) {
           class="upload-image-item"
         >
           <img
+            class="upload-image-item-img"
             :src="item.url"
           >
           <!-- 上传中 -->
@@ -127,6 +153,12 @@ function isFail(item: Image) {
           >
             上传失败
           </div>
+          <!-- 删除 -->
+          <eui-icon
+            class="upload-image-item-close"
+            name="close"
+            @click="toDelete(item)"
+          />
         </div>
       </template>
       <div
@@ -171,7 +203,7 @@ function isFail(item: Image) {
     position: relative;
     @include image;
 
-    >img {
+    &-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -203,6 +235,14 @@ function isFail(item: Image) {
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    &-close {
+      position: absolute;
+      width: 48rem;
+      height: 48rem;
+      top: 10rem;
+      right: 10rem;
     }
   }
 

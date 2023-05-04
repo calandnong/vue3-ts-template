@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import DynamicTextarea from './components/dynamic-textarea.vue';
-import type { UploadMethods } from './components/upload-image/index.vue';
+import type { UploadMethod } from './components/upload-image/index.vue';
 import UploadImage from './components/upload-image/index.vue';
 import EuiButton from '@/components/example-ui/button/index.vue';
 import { onPageScroll } from '@/adapters/page-events';
@@ -33,11 +33,11 @@ const isPublishButtonDisabled = computed(() => {
   return false;
 });
 
-const upload: UploadMethods = (file) => {
+const upload: UploadMethod = (file) => {
   return publishUploadFile({
     data: file,
   }).then((res) => {
-    if (res.code === 1) {
+    if (res.code === 200) {
       return {
         file: res.data,
         response: res.data,
