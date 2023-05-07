@@ -33,5 +33,9 @@ module.exports = {
     }],
     // 关闭if else换行规则
     '@typescript-eslint/brace-style': [2, '1tbs'],
+    // 静止静态行内css
+    'vue/no-static-inline-styles': ['error', {
+      allowBinding: false,
+    }],
   },
 };

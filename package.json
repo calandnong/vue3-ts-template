@@ -8,13 +8,7 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "prepare": "husky install",
-    "test": "vitest watch",
-    "w2": "w2 stop && w2 start -p 9988 && w2 add --force .whistle.js",
-    "test1":"w2 proxy 9988",
-    "w2:base": "w2 stop && w2 start -p 9988",
-    "w2:stop": "w2 stop",
-    "w2:mock": "w2 stop && w2 start && w2 add --force .whistle.js --mockPort 7777",
-    "mock": "mock -p 7777 -d ./mock"
+    "test": "vitest watch"
   },
   "dependencies": {
     "@applet-request/adapters": "^0.1.11",
