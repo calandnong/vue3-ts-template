@@ -31,5 +31,7 @@ module.exports = {
     'vue/multi-word-component-names': ['error', {
       ignores: ['index'],
     }],
+    // 关闭if else换行规则
+    '@typescript-eslint/brace-style': [2, '1tbs'],
   },
 };

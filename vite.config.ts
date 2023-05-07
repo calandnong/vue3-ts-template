@@ -7,12 +7,6 @@ export default defineConfig({
   envPrefix: 'APP_',
   plugins: [vue()],
 
-  // vitest
-  test: {
-
-    // ...
-  },
-
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),

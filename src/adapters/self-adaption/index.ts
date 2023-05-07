@@ -13,8 +13,7 @@ function rem() {
     // 大于750，则给最大1px
     if (clientWidth >= 750) {
       domElement.style.fontSize = `${r}px`;
-    }
-    else {
+    } else {
       r = 1 * (clientWidth / 750);
       // 小于750，则根据750的基数*1，给字体大小
       domElement.style.fontSize = `${r}px`;

@@ -17,6 +17,36 @@ export interface LoginData {
   password: string;
 }
 
+// /**
+//  * 接口请求地址
+//  */
+// url: string;
+// /**
+//  * 路由参数
+//  */
+// params?: RequestParams;
+// /**
+//  * 请求体, 以后有更动态需求可以考虑替换为unknown
+//  */
+// data?: unknown;
+
+// /**
+//  * 其他配置
+//  */
+// config?: Config;
+
+// method?: string;
+// /**
+//  * 请求头
+//  */
+// header?: Record<string, string>;
+// responseType?: XMLHttpRequestResponseType;
+// timeout?: number;
+// withCredentials?: boolean;
+// xsrfCookieName?: string;
+// xsrfHeaderName?: string;
+// auth?: XHRBasicCredentials;
+
 /**
  * 登陆接口
  * @param data

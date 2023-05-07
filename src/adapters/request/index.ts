@@ -1,6 +1,6 @@
 import { HttpRequest } from '@applet-request/core';
-import type { XHRConfig } from '@applet-request/adapters';
-import { XHRAdapter } from '@applet-request/adapters';
+import type { AxiosConfig } from '@applet-request/adapters';
+import { AxiosAdapter } from '@applet-request/adapters';
 import { BaseException } from '@applet-request/shared';
 
 export interface CommonResponse {
@@ -13,13 +13,13 @@ export interface CommonResponse {
    */
   msg: string;
 }
-
-const instance = new HttpRequest(new XHRAdapter<CommonResponse>());
+// UniRequestAdapter
+const instance = new HttpRequest(new AxiosAdapter<CommonResponse>());
 
 instance.setDefaultConfig({
-  baseURL: 'http://www.example.com',
+  baseURL: 'http://localhost',
   config: {
-    header: {
+    headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
   },
@@ -44,7 +44,7 @@ instance.use(async (context, next) => {
   await next();
   console.log('请求后', context.response);
 });
-
-export const request = <Response>(options: XHRConfig) => {
+// UniRequestConfig
+export const request = <Response>(options: AxiosConfig) => {
   return instance.request<Response>(options);
 };
