@@ -11,7 +11,7 @@
     "test": "vitest watch"
   },
   "dependencies": {
-    "@applet-request/adapters": "^0.1.11",
+    "@applet-request/adapters": "^0.1.12",
     "@applet-request/core": "^0.1.10",
     "@applet-request/shared": "^0.1.10",
     "pinia": "^2.0.35",

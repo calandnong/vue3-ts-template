@@ -2,8 +2,8 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@applet-request/adapters':
-    specifier: ^0.1.11
-    version: 0.1.11
+    specifier: ^0.1.12
+    version: 0.1.12
   '@applet-request/core':
     specifier: ^0.1.10
     version: 0.1.10
@@ -72,8 +72,8 @@ devDependencies:
 
 packages:
 
-  /@applet-request/adapters@0.1.11:
-    resolution: {integrity: sha512-RU3Uga24OXIp6VuL1nwtZO3S2YbHr3cDuTT/5NHYeAMjXGbfpRqe49dTBX8NpVju9qx1wc8RQQPO4E0OdN0O/Q==}
+  /@applet-request/adapters@0.1.12:
+    resolution: {integrity: sha512-O6XCgZZh4clpoHjjxguO2SPp2CCwxxqopj6ii8/sNV2cVZGfqtXcmgIapUBrzWzt2JHg/Bgd0ia3VEvBlqIaNg==}
     dependencies:
       '@applet-request/core': 0.1.10
       '@applet-request/shared': 0.1.10

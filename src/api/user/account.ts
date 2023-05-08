@@ -1,5 +1,5 @@
 import type { CommonResponse, params } from '../root/index';
-import { dele } from '../root/index';
+import { get } from '../root/index';
 
 /**
  * 登陆返回的信息
@@ -23,5 +23,5 @@ export interface LoginData extends params {
  * @returns
  */
 export const login = (data: LoginData) => {
-  return dele<UserData>('/api/login', data);
+  return get<UserData>('/api/login', data);
 };

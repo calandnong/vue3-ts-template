@@ -35,7 +35,6 @@ function baseRequest<ResponseData>(url: string, method: Method, value: unknown |
   } else {
     requestObject.data = value;
   }
-  // debugger;
   return request<ResponseData>(requestObject);
 }
 /**
