@@ -3,11 +3,7 @@ import { RouterView } from 'vue-router';
 import { onMounted } from 'vue';
 
 // 测试
-import { login } from '@/api/login';
-
-// todo 配置 eslint的excludedFiles
-const testError = 1;
-console.log(testError);
+import { login } from '@/api/user/account';
 
 onMounted(async () => {
   try {

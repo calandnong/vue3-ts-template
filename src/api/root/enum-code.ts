@@ -1,5 +1,3 @@
-export type { CommonResponse } from '@/adapters/request/index';
-
 export enum ErrorCode {
   /**
    * 登陆过期
