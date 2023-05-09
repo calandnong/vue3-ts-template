@@ -12,7 +12,7 @@ import {
   tabBarList,
   pagePaths,
   tabBarConfig,
-} from '@/router';
+} from '@/router/index';
 
 const router = useRouter();
 

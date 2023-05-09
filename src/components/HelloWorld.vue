@@ -4,6 +4,10 @@ import { ref } from 'vue';
 import { setItem, getItem, removeItem, Key } from '@/utils/adapters/storage/index';
 import type { ValueType } from '@/utils/adapters/storage/index';
 
+import { RoutePath, useCurrentRoute, pageBack, pageRedirect, pageNext } from '@/router/index';
+
+import { getDomFile } from '@/utils/adapters/dom-file';
+
 defineProps<{ msg: string }>();
 
 const count = ref(0);
@@ -11,20 +15,48 @@ const count = ref(0);
 // 这里告诉你有哪些接口你可以调用 以及调用案例，禁止直接调用浏览器api例如：localstorage
 // 有问题先学习 不懂问我
 
-// localstorage本地存储
+// ==> localstorage本地存储   禁止直接调用localstorage
 setItem< ValueType[Key.Token] >(Key.Token, '用户标识字符串');
 
 getItem< ValueType[Key.Token] >(Key.Token);
 
 removeItem(Key.Token);
 
-// 路由
+// ==> 路由  禁止直接调用vue-router相关api
+// 获取当前路由的所有信息
+console.log(useCurrentRoute().value);
+// 路由倒退，和浏览器的后退差不多一个意思
+pageBack(1);
+// 路由跳转 提供目标路由需要的参数
+pageNext(RoutePath.HOME, { a: 12, str: '343' });
+// 重定向   提供目标路由需要的参数
+pageRedirect(RoutePath.HOME, { a: 12, str: '343' });
+// 获取当前路由的参数 由pageNext和pageRedirect提供 例：{ a: 12, str: '343' }
+console.log(useCurrentRoute().value?.query);
+
+// ==>获取文件 禁止直接操作事件获取dom节点 例如e.target.files
+const inputDom = ref();
+
+function getFile() {
+  const files = getDomFile(inputDom);
+  console.log(files);
+}
 
 </script>
 
 <template>
   <h1>{{ msg }}</h1>
-
+  <input
+    ref="inputDom"
+    type="file"
+    name=""
+    @change="getFile"
+  >
+  <input
+    ref="inputDom"
+    type="file"
+    name=""
+  >
   <div class="card">
     <button
       type="button"

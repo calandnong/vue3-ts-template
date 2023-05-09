@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
-import { RoutePath } from '@/router';
 
-const router = useRouter();
+import { useCurrentRoute, pageBack } from '@/router/index';
 
 function toDynamicList() {
-  router.push({
-    path: RoutePath.DYNAMIC_LIST,
-  });
-}
+  // 这是我测试代码 可以删掉
+  console.log(useCurrentRoute().value);
 
+  pageBack(1);
+}
 </script>
 
 <template>
