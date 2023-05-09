@@ -54,6 +54,51 @@ export const pages = createPageRoutes([
     },
     component: () => import('@/views/dynamic-list/index.vue'),
   },
+  // =>用户部分
+  {
+    path: `/${RoutePath.USER_LOGIN}`,
+    name: RoutePath.USER_LOGIN,
+    meta: {
+      navigationBarTitleText: '登录',
+    },
+    component: () => import('@/views/user-login/index.vue'),
+  },
+  {
+    path: `/${RoutePath.USER_QUICK_LOGIN}`,
+    name: RoutePath.USER_QUICK_LOGIN,
+    meta: {
+      navigationBarTitleText: '快速登录',
+    },
+    component: () => import('@/views/user-quick-login/index.vue'),
+  },
+  {
+    path: `/${RoutePath.USER_RESET}`,
+    name: RoutePath.USER_RESET,
+    meta: {
+      navigationBarTitleText: '重置密码',
+    },
+    component: () => import('@/views/user-register/index.vue'),
+  },
+  {
+    path: `/${RoutePath.USER_REGISTER}`,
+    name: RoutePath.USER_REGISTER,
+    meta: {
+      navigationBarTitleText: '用户注册',
+    },
+    component: () => import('@/views/user-register/index.vue'),
+  },
+  {
+    path: `/${RoutePath.USER_CENTER}`,
+    name: RoutePath.USER_CENTER,
+    meta: {
+      navigationBarTitleText: '用户中心',
+      isTabBar: Is.TRUE,
+      iconPath: '',
+      selectedIconPath: '',
+      text: '用户中心',
+    },
+    component: () => import('@/views/user-center/index.vue'),
+  },
 ]);
 
 /**
