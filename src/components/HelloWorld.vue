@@ -8,6 +8,8 @@ import { RoutePath, useCurrentRoute, pageBack, pageRedirect, pageNext } from '@/
 
 import { getDomFile } from '@/utils/adapters/dom-file';
 
+import { login } from '@/api/user/account';
+
 defineProps<{ msg: string }>();
 
 const count = ref(0);
@@ -41,6 +43,26 @@ function getFile() {
   const files = getDomFile(inputDom);
   console.log(files);
 }
+
+// ==>调用后端接口  @/api/user ，api文件下每一个函数对应一个http请求调用 需要自己编写
+const getUserInfo = async () => {
+  try {
+    const res = await login({
+      username: '',
+      password: '',
+    });
+    console.log(res);
+  } catch (error) {
+    // 处理业务异常
+    // if (error instanceof BusinessException) {
+    //   // 如果是登陆失效，跳转登陆失效页
+    //   if (error.raw.code === ErrorCode.LOGIN_EXPIRE) {
+    //     // 某些操作
+    //   }
+    // }
+  }
+};
+getUserInfo();
 
 </script>
 
