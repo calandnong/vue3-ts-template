@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import type { Is } from '@/router/index';
+import backImg from '@/assets/icons/page-header/back.png';
+import { pageBack } from '@/router/index';
 
 export interface HeaderConfig {
   /**
@@ -40,9 +43,17 @@ interface HeaderProps {
    * 导航栏标题颜色和状态栏前景颜色
    */
   navigationBarTextStyle?: string;
+  /**
+   * 是否属于tabbar
+   */
+  navigationBarIsTabBar?: Is;
 }
 
 defineProps<HeaderProps>();
+
+function goBack() {
+  pageBack();
+}
 
 </script>
 
@@ -56,6 +67,11 @@ defineProps<HeaderProps>();
         v-show="currentPagePath === item"
         class="common-header-body"
       >
+        <img
+          class="common-header-back"
+          :src="backImg"
+          @click="goBack"
+        >
         <div class="common-header-title">
           {{ navigationBarTitleText }}
         </div>
@@ -80,16 +96,17 @@ defineProps<HeaderProps>();
     padding: 14rem 6rem;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     box-sizing: border-box;
     color: #fff;
-    background-color: #000;
+    background-color: #c7c7c7;
     transition-property: all;
   }
 
   &-title {
     position: absolute;
-    left: 70px;
-    right: 70px;
+    left: 70rem;
+    right: 70rem;
     min-width: 0;
     font-weight: 700;
     font-size: 32rem;
@@ -98,6 +115,11 @@ defineProps<HeaderProps>();
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+
+  &-back{
+    width: 50rem;
+    height: 50rem;
   }
 }
 </style>

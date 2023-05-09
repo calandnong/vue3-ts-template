@@ -63,6 +63,7 @@ const commonPageStyle = computed(() => {
       :navigation-bar-title-text="currentPageMeta.navigationBarTitleText"
       :navigation-bar-background-color="currentPageMeta.navigationBarBackgroundColor"
       :navigation-bar-text-style="currentPageMeta.navigationBarTextStyle"
+      :navigation-bar-is-tab-bar="currentPageMeta.isTabBar"
     />
     <common-page
       class="common-page"

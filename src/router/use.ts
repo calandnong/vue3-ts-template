@@ -57,9 +57,9 @@ export function pageNext(target: RoutePath, query?: LocationQueryRaw) {
  * @param parms   传递给目标的参数对象
  */
 export function pageBack(step = 1) {
-  if (step >= 0) {
+  if (step <= 0) {
     throw new Error('页面返回参数必须大于0');
   } else {
-    router.go(step);
+    router.go(-step);
   }
 }
