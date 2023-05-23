@@ -4,7 +4,7 @@ export interface Image {
   /**
    * 图片唯一id
    */
-  uid: string;
+  __uid: string;
   /**
    * 图片地址
    */
@@ -14,9 +14,13 @@ export interface Image {
    */
   status: UploadStatus;
   /**
-   * 图片上传返回的内容
+   * 自身文件对象
    */
-  response?: unknown;
+  file: File;
+  /**
+   * 元数据
+   */
+  meta?: unknown;
 }
 
 export enum UploadStatus {
@@ -39,9 +43,10 @@ export function readFileContent(file: File): Promise<Image> {
     const fileReader = new FileReader();
     fileReader.onload = () => {
       resolve({
-        uid: generateUniqueId(),
+        __uid: generateUniqueId(),
         url: fileReader.result as string,
         status: UploadStatus.UPLOADING,
+        file,
       });
     };
     fileReader.readAsDataURL(file as Blob);

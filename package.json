@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "lint": "eslint .",
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
@@ -20,7 +21,7 @@
     "@applet-request/core": "^0.1.10",
     "@applet-request/shared": "^0.1.10",
     "pinia": "^2.0.34",
-    "vue": "^3.2.47",
+    "vue": "^3.3.1",
     "vue-router": "4"
   },
   "devDependencies": {

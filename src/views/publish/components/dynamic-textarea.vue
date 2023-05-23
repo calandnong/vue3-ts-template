@@ -24,16 +24,26 @@ interface DynamicTextareaStyle {
 const dynamicTextareaStyle = ref<DynamicTextareaStyle>({
 });
 
-function resetHeight() {
+function initHeight() {
   if (dynamicTextarea.value) {
     dynamicTextarea.value.style.height = 'auto';
+  }
+}
+
+function resetHeight() {
+  if (dynamicTextarea.value) {
     dynamicTextarea.value.style.height = `${dynamicTextarea.value.scrollHeight}px`;
   }
 }
 
 function input(payload: Event) {
-  resetHeight();
   const target = payload.target as HTMLTextAreaElement;
+  if (target.value) {
+    resetHeight();
+  }
+  else {
+    initHeight();
+  }
   emits('update:modelValue', target.value);
 }
 

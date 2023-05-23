@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { getImageUrl } from '@/adapters/images';
 
+export type IconName = 'home'
+| 'home-select';
+
 export interface Props {
-  name?: string;
+  name?: IconName;
 }
 
 withDefaults(defineProps<Props>(), {
-  name: '',
+  name: 'home',
 });
 
 </script>
@@ -17,6 +20,7 @@ withDefaults(defineProps<Props>(), {
     :src="getImageUrl(name)"
     alt=""
   >
+  <input onclick="">
 </template>
 
 <style lang="scss" scoped>

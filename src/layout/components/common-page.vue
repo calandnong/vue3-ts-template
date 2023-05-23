@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router';
+import { RouterView, useRoute } from 'vue-router';
 import { computed, ref } from 'vue';
 import CommonHeader from './common-header.vue';
 import type { PageMeta } from '@/router';
@@ -67,6 +67,7 @@ const isHeaderShow = computed(() => {
   }
   return true;
 });
+const route = useRoute();
 
 </script>
 
@@ -79,6 +80,7 @@ const isHeaderShow = computed(() => {
     <!-- 头部都是不同实例 -->
     <common-header
       v-show="isHeaderShow"
+      :key="route.path"
       class="common-header"
       :navigation-bar-title-text="currentPageMeta.navigationBarTitleText || navigateStyle.navigationBarTitleText"
       :navigation-bar-background-color="currentPageMeta.navigationBarBackgroundColor || navigateStyle.navigationBarBackgroundColor"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import DynamicTextarea from './components/dynamic-textarea.vue';
-import type { UploadMethod } from './components/upload-image/index.vue';
+import type { UploadMethod, FormatFile, DeleteMethod } from './components/upload-image/index.vue';
 import UploadImage from './components/upload-image/index.vue';
 import EuiButton from '@/components/example-ui/button/index.vue';
 import { onPageScroll } from '@/adapters/page-events';
@@ -39,13 +39,45 @@ const upload: UploadMethod = (file) => {
   }).then((res) => {
     if (res.code === 200) {
       return {
-        file: res.data,
-        response: res.data,
+        url: res.data.url,
+        meta: res.data,
       };
     }
     return Promise.reject(new Error('错误了'));
   });
 };
+
+const deleteMethod: DeleteMethod = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 300);
+  });
+};
+
+interface ImageListItem {
+  imgUrl: string;
+  id: string;
+  message: string;
+}
+
+// 例如这里是后端返回的图片列表
+const list: ImageListItem[] = [{
+  id: '111',
+  imgUrl: 'http://admin.con',
+  message: '其他信息',
+}];
+
+const formatList = ref<FormatFile[]>([]);
+
+setTimeout(() => {
+  formatList.value = list.map((item) => {
+    return {
+      url: item.imgUrl,
+      meta: item,
+    };
+  });
+}, 1000);
 
 </script>
 
@@ -65,8 +97,10 @@ const upload: UploadMethod = (file) => {
         class="dynamic-textarea"
       />
       <upload-image
+        v-model="formatList"
         :config="{
           upload: upload,
+          delete: deleteMethod
         }"
         class="dynamic-upload-image"
       />

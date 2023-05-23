@@ -4,15 +4,10 @@ import type { Image } from './use';
 import { readFileContent, UploadStatus } from './use';
 import EuiIcon from '@/components/example-ui/icon/index.vue';
 
-export type FormatFile = Omit<Image, 'uid' | 'status'>;
-
-export interface ImageFile {
-  file: FormatFile;
-  response?: unknown;
-}
+export type FormatFile = Omit<Image, '__uid' | 'status' | 'file'>;
 
 export interface UploadMethod {
-  (file: File): Promise<ImageFile>;
+  (file: File): Promise<FormatFile>;
 }
 
 export interface DeleteMethod {
@@ -28,7 +23,7 @@ export interface Props {
   /**
    * 输入的值
    */
-  modelValue?: Image[];
+  modelValue?: FormatFile[];
   /**
    * 最大上传数
    */
@@ -80,10 +75,10 @@ function select(payload: Event) {
     const loadImage = await readFileContent(file);
     const pushIndex = uploadList.value.push(loadImage) - 1;
     // 上传...
-    props.config.upload?.(file).then(({ file, response }) => {
-      uploadList.value[pushIndex].url = file.url;
+    props.config.upload?.(file).then(({ url, meta }) => {
+      uploadList.value[pushIndex].url = url;
       uploadList.value[pushIndex].status = UploadStatus.SUCCESS;
-      uploadList.value[pushIndex].response = response;
+      uploadList.value[pushIndex].meta = meta;
     }).catch((err) => {
       console.error(err);
       uploadList.value[pushIndex].status = UploadStatus.FAIL;
@@ -102,7 +97,7 @@ function isFail(item: Image) {
 
 function deleteImage(item: Image) {
   const index = uploadList.value.findIndex((uploadListItem) => {
-    return uploadListItem.uid === item.uid;
+    return uploadListItem.__uid === item.__uid;
   });
   if (index !== -1) {
     uploadList.value.splice(index, 1);
@@ -110,14 +105,33 @@ function deleteImage(item: Image) {
 }
 
 function toDelete(item: Image) {
-  if (props.config.delete) {
-    props.config.delete?.(item).then(() => {
+  if (
+    props.config.delete
+    && props.config.upload
+    && item.status === UploadStatus.SUCCESS
+  ) {
+    props.config.delete(item).then(() => {
       deleteImage(item);
-      return Promise.reject(new Error('未找到需要删除的'));
     });
     return;
   }
   deleteImage(item);
+}
+
+function retry(item: Image) {
+  const retryIndex = uploadList.value.findIndex((uploadListItem) => {
+    return uploadListItem.__uid === item.__uid;
+  });
+  uploadList.value[retryIndex].status = UploadStatus.UPLOADING;
+  // 上传...
+  props.config.upload?.(item.file).then(({ url, meta }) => {
+    uploadList.value[retryIndex].url = url;
+    uploadList.value[retryIndex].status = UploadStatus.SUCCESS;
+    uploadList.value[retryIndex].meta = meta;
+  }).catch((err) => {
+    console.error(err);
+    uploadList.value[retryIndex].status = UploadStatus.FAIL;
+  });
 }
 
 </script>
@@ -130,11 +144,9 @@ function toDelete(item: Image) {
       <!-- 已选上传的图片列表 -->
       <template
         v-for="item in uploadList"
-        :key="item.uid"
+        :key="item.__uid"
       >
-        <div
-          class="upload-image-item"
-        >
+        <div class="upload-image-item">
           <img
             class="upload-image-item-img"
             :src="item.url"
@@ -150,8 +162,10 @@ function toDelete(item: Image) {
           <div
             v-show="isFail(item)"
             class="upload-image-item-fail"
+            @click.stop="retry(item)"
           >
-            上传失败
+            <div>上传失败</div>
+            <div>请点击重试</div>
           </div>
           <!-- 删除 -->
           <eui-icon
@@ -235,6 +249,7 @@ function toDelete(item: Image) {
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
     }
 
     &-close {
@@ -256,9 +271,7 @@ function toDelete(item: Image) {
     align-items: center;
     flex-direction: column;
 
-    &-icon {
-
-    }
+    &-icon {}
 
     .insert-tips {
       /* 中文/说明文字/Regular */
